@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Word Cloud - Android</title>
+    <link rel="icon"
+        type="image.png">
+    
+    </script><style type="text/css"></style>
+    <style type="text/css">
+    
+    .javascript  {font-family: 'Andale Mono', Consolas, monospace; font-size: 11px}
+    .javascript .imp {font-weight: bold; color: red;}
+    .javascript .kw1 {color: #000066; font-weight: bold;}
+    .javascript .kw2 {color: #003366; font-weight: bold;}
+    .javascript .kw3 {color: #000066;}
+    .javascript .kw5 {color: #FF0000;}
+    .javascript .co1 {color: #006600; font-style: italic;}
+    .javascript .co2 {color: #009966; font-style: italic;}
+    .javascript .coMULTI {color: #006600; font-style: italic;}
+    .javascript .es0 {color: #000099; font-weight: bold;}
+    .javascript .br0 {color: #009900;}
+    .javascript .sy0 {color: #339933;}
+    .javascript .st0 {color: #3366CC;}
+    .javascript .nu0 {color: #CC0000;}
+    .javascript .me1 {color: #660066;}
+    .javascript span.xtra { display:block; }
+  
+    .html4strict  {font-family: 'Andale Mono', Consolas, monospace; font-size: 11px}
+    .html4strict .imp {font-weight: bold; color: red;}
+    .html4strict .kw2 {color: #000000; font-weight: bold;}
+    .html4strict .kw3 {color: #000066;}
+    .html4strict .es0 {color: #000099; font-weight: bold;}
+    .html4strict .br0 {color: #66cc66;}
+    .html4strict .sy0 {color: #66cc66;}
+    .html4strict .st0 {color: #ff0000;}
+    .html4strict .nu0 {color: #cc66cc;}
+    .html4strict .sc-2 {color: #404040;}
+    .html4strict .sc-1 {color: #808080; font-style: italic;}
+    .html4strict .sc0 {color: #00bbdd;}
+    .html4strict .sc1 {color: #ddbb00;}
+    .html4strict .sc2 {color: #009900;}
+    .html4strict span.xtra { display:block; }
+    div#cmsg {
+        position: absolute;
+        top: 300px;
+        left: 180px;
+        width: 160px;
+        padding: 6px;
+        border: 4px solid #aaa;
+        background-color: #eee;
+        text-align: center
+    }
+    div#cmsg:hover { opacity: 0.5 }
+    -->
+        </style>
+    <script src="./TagCanvas - an HTML5 Canvas Tag Cloud_files/tagcanvas.min.js" type="text/javascript" async=""></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        var oopts = {
+            textFont: 'Impact,Arial Black,sans-serif',
+            textHeight: 20,
+            maxSpeed: 0.1,
+            decel: 0.9,
+            depth: 0.99,
+            outlineColour: '#f6f',
+            outlineThickness: 3,
+            pulsateTo: 0.2,
+            pulsateTime: 0.5,
+            wheelZoom: false
+        }, ttags = 'taglist', lock, shape = 'sphere';
+    window.onload = function() {
+        TagCanvas.textFont = 'Trebuchet MS, Helvetica, sans-serif';
+        TagCanvas.textColour = '#A4C639';
+        TagCanvas.textHeight = 25;
+        TagCanvas.outlineMethod = 'block';
+        TagCanvas.outlineColour = '#dce9b3';
+        TagCanvas.maxSpeed = 0.03;
+        TagCanvas.minBrightness = 0.2;
+        TagCanvas.depth = 0.92;
+        TagCanvas.pulsateTo = 0.6;
+        TagCanvas.initial = [0.1,-0.1];
+        TagCanvas.decel = 0.98;
+        TagCanvas.reverse = true;
+        TagCanvas.hideTags = false;
+        TagCanvas.shadow = '#ccf';
+        TagCanvas.shadowBlur = 3;
+        TagCanvas.weight = false;
+        TagCanvas.imageScale = null;
+        TagCanvas.fadeIn = 1000;
+        TagCanvas.clickToFront = 600;
+        try {
+            TagCanvas.Start('tagcanvas','taglist');
+            TagCanvas.Start('smallCanvas','moreTags', oopts);
+            f('options');
+        } catch(e) {
+            document.getElementById('cmsg').style.display='none';
+            document.getElementsByTagName('canvas')[0].style.border='0';
+        }
+    };
+    function BGImage(e) {
+        document.getElementById('tagcanvas').style.backgroundImage = (e.checked ? 'url(TagCanvas - an HTML5 Canvas Tag Cloud_files/image.png)' : 'none');
+    }
+    function f(a) {
+        TagCanvas.Start('otherCanvas',a,oopts);
+        return false;
+    }
+    function restart() {
+        TagCanvas.shape = shape;
+        TagCanvas.lock = lock;
+        TagCanvas.Start('tagcanvas',ttags);
+    }
+    function changetags(t) {
+        ttags = t;
+        restart();
+    }
+    function changeshape(s) {
+        var locks = { hcylinder: 'x', vcylinder: 'y', hring: 'x', vring: 'y', sphere: '' };
+        lock = locks[s] || '';
+        shape = s;
+        TagCanvas.initial = (lock == 'x' && [0,0.2]) || (lock == 'y' && [0.2,0]) || [0.2,0.2];
+        restart();
+    }
+    function tpu(s) {
+        document.getElementById('sout').innerHTML = s.innerHTML;
+        return false;
+    }
+    //]]>
+        </script>
+</head>
+<body>
+    <h1 style="text-align: center">Project: Wordcloud on Android</h1>
+    
+    <div id="content" style="margin-left: 20px;">
+        
+        <div class="centred" style="width: 1100px">
+                        
+            <canvas id="tagcanvas" width="950" height="550" style="">
+                <img src="./TagCanvas - an HTML5 Canvas Tag Cloud_files/tagcanvas.png" width="200" height="150">
+                    
+            </canvas>
+           
+            <div style="text-align: center">
+                <h1>You clicked on: <em id="sout" style="color:#900">Null</em></h1>
+
+                <span>Cloud shape:</span>
+                <button onclick="changeshape(&#39;hcylinder&#39;)">hcylinder</button>
+                <button onclick="changeshape(&#39;vcylinder&#39;)">vcylinder</button>
+                <button onclick="changeshape(&#39;hring&#39;)">hring</button>
+                <button onclick="changeshape(&#39;vring&#39;)">vring</button>
+                <button onclick="changeshape(&#39;sphere&#39;)">sphere</button>
+            </div>
+                    </div>
+        
+        
+        
+        
+        <div style="display: none">
+            <div id="taglist">
+                <ul style="display: block; width: 200px; float: left">
+                    <!-- 1-5 -->
+                    <li><a href="–" onclick="return tpu(this)">–</a></li>
+                    <li><a href="access" onclick="return tpu(this)">access</a></li>
+                    <li><a href="accessed" onclick="return tpu(this)">accessed</a></li>
+                    <li><a href="according" onclick="return tpu(this)">according</a></li>
+                    <li><a href="acm" onclick="return tpu(this)">acm</a></li>
+                    <!-- 6-10 -->
+                    <li><a href="agent" onclick="return tpu(this)">agent</a></li>
+                    <li><a href="algorithm" onclick="return tpu(this)">algorithm</a></li>
+                    <li><a href="also" onclick="return tpu(this)">also</a></li>
+                    <li><a href="app" onclick="return tpu(this)">app</a></li>
+                    <li><a href="application" onclick="return tpu(this)">application</a></li>
+                    <!-- 11-15 -->
+                    <li><a href="api" onclick="return tpu(this)">api</a></li>
+                    <li><a href="apis" onclick="return tpu(this)">apis</a></li>
+                    <li><a href="apk" onclick="return tpu(this)">apk</a></li>
+                    <li><a href="analysis" onclick="return tpu(this)">analysis</a></li>
+                    <li><font size="1"><a textColour='#EBF938' href="android" onclick="return tpu(this)">android</a></font></li>
+                    <!-- 16-20 -->
+                    <li><a href="applications" onclick="return tpu(this)">applications</a></li>
+                    <li><a href="approach" onclick="return tpu(this)">approach</a></li>
+                    <li><a href="apps" onclick="return tpu(this)">apps</a></li>
+                    <li><a href="architecture" onclick="return tpu(this)">architecture</a></li>
+                    <li><a href="available" onclick="return tpu(this)">available</a></li>
+                    <!-- 21-25 -->
+                    <li><a href="background" onclick="return tpu(this)">background</a></li>
+                    <li><a href="based" onclick="return tpu(this)">based</a></li>
+                    <li><a href="behavior" onclick="return tpu(this)">behavior</a></li>
+                    <li><a href="behaviors" onclick="return tpu(this)">behaviors</a></li>
+                    <li><a href="benign" onclick="return tpu(this)">benign</a></li>
+                    <!-- 26-30 -->
+                    <li><a href="botnet" onclick="return tpu(this)">botnet</a></li>
+                    <li><a href="bytecode" onclick="return tpu(this)">bytecode</a></li>
+                    <li><a href="cache" onclick="return tpu(this)">cache</a></li>
+                    <li><a href="call" onclick="return tpu(this)">call</a></li>
+                    <li><a href="called" onclick="return tpu(this)">called</a></li>
+                    <!-- 31-35 -->
+                    <li><a href="calls" onclick="return tpu(this)">calls</a></li>
+                    <li><a href="can" onclick="return tpu(this)">can</a></li>
+                    <li><a href="case" onclick="return tpu(this)">case</a></li>
+                    <li><a href="class" onclick="return tpu(this)">class</a></li>
+                    <li><a href="cloud" onclick="return tpu(this)">cloud</a></li>
+                    <!-- 36-40 -->
+                    <li><a href="code" onclick="return tpu(this)">code</a></li>
+                    <li><a href="communication" onclick="return tpu(this)">communication</a></li>
+                    <li><a href="component" onclick="return tpu(this)">component</a></li>
+                    <li><a href="components" onclick="return tpu(this)">components</a></li>
+                    <li><a href="computer" onclick="return tpu(this)">computer</a></li>
+                    <!-- 41-45 -->
+                    <li><a href="computing" onclick="return tpu(this)">computing</a></li>
+                    <li><a href="conference" onclick="return tpu(this)">conference</a></li>
+                    <li><a href="control" onclick="return tpu(this)">control</a></li>
+                    <li><a href="dalvik" onclick="return tpu(this)">dalvik</a></li>
+                    <li><a href="data" onclick="return tpu(this)">data</a></li>
+                    <!-- 46-50 -->
+                    <li><a href="database" onclick="return tpu(this)">database</a></li>
+                    <li><a href="design" onclick="return tpu(this)">design</a></li>
+                    <li><a href="detect" onclick="return tpu(this)">detection</a></li>
+                    <li><a href="detection" onclick="return tpu(this)">analysis</a></li>
+                    <li><a href="developed" onclick="return tpu(this)">developed</a></li>
+                    <!-- 51-55 -->
+                    <li><a href="developers" onclick="return tpu(this)">developers</a></li>
+                    <li><a href="development" onclick="return tpu(this)">development</a></li>
+                    <li><a href="device" onclick="return tpu(this)">device</a></li>
+                    <li><a href="devices" onclick="return tpu(this)">devices</a></li>
+                    <li><a href="dex" onclick="return tpu(this)">dex</a></li>
+                    <!-- 56-60 -->
+                    <li><a href="different" onclick="return tpu(this)">different</a></li>
+                    <li><a href="driver" onclick="return tpu(this)">driver</a></li>
+                    <li><a href="due" onclick="return tpu(this)">due</a></li>
+                    <li><a href="dynamic" onclick="return tpu(this)">dynamic</a></li>
+                    <li><a href="engineering" onclick="return tpu(this)">engineering</a></li>
+                    <!-- 61-65 -->
+                    <li><a href="environment" onclick="return tpu(this)">environment</a></li>
+                    <li><a href="event" onclick="return tpu(this)">event</a></li>
+                    <li><a href="events" onclick="return tpu(this)">events</a></li>
+                    <li><a href="example" onclick="return tpu(this)">example</a></li>
+                    <li><a href="execution" onclick="return tpu(this)">execution</a></li>
+                    <!-- 66-70 -->
+                    <li><a href="existing" onclick="return tpu(this)">existing</a></li>
+                    <li><a href="experiment" onclick="return tpu(this)">experiment</a></li>
+                    <li><a href="feature" onclick="return tpu(this)">feature</a></li>
+                    <li><a href="features" onclick="return tpu(this)">features</a></li>
+                    <li><a href="fig" onclick="return tpu(this)">fig</a></li>
+                    <!-- 71-75 -->
+                    <li><a href="figure" onclick="return tpu(this)">figure</a></li>
+                    <li><a href="file" onclick="return tpu(this)">file</a></li>
+                    <li><a href="first" onclick="return tpu(this)">first</a></li>
+                    <li><a href="files" onclick="return tpu(this)">files</a></li>
+                    <li><a href="following" onclick="return tpu(this)">following</a></li>
+                    <!-- 76-80 -->
+                    <li><a href="found" onclick="return tpu(this)">found</a></li>
+                    <li><a href="framework" onclick="return tpu(this)">framework</a></li>
+                    <li><a href="function" onclick="return tpu(this)">function</a></li>
+                    <li><a href="get" onclick="return tpu(this)">get</a></li>
+                    <li><a href="google" onclick="return tpu(this)">google</a></li>
+                    <!-- 81-85 -->
+                    <li><a href="however" onclick="return tpu(this)">however</a></li>
+                    <li><a href="identify" onclick="return tpu(this)">identify</a></li>
+                    <li><a href="ieee" onclick="return tpu(this)">ieee</a></li>
+                    <li><a href="iii" onclick="return tpu(this)">iii</a></li>
+                    <li><a href="important" onclick="return tpu(this)">important</a></li>
+                    <!-- 86-90 -->
+                    <li><a href="information" onclick="return tpu(this)">information</a></li>
+                    <li><a href="input" onclick="return tpu(this)">input</a></li>
+                    <li><a href="interface" onclick="return tpu(this)">interface</a></li>
+                    <li><a href="international" onclick="return tpu(this)">international</a></li>
+                    <li><a href="internet" onclick="return tpu(this)">internet</a></li>
+                    <!-- 91-95 -->
+                    <li><a href="java" onclick="return tpu(this)">java</a></li>
+                    <li><a href="kernel" onclick="return tpu(this)">kernel</a></li>
+                    <li><a href="key" onclick="return tpu(this)">key</a></li>
+                    <li><a href="knee" onclick="return tpu(this)">knee</a></li>
+                    <li><a href="last" onclick="return tpu(this)">last</a></li>
+                    <!-- 96-100 -->
+                    <li><a href="layer" onclick="return tpu(this)">layer</a></li>
+                    <li><a href="leakage" onclick="return tpu(this)">leakage</a></li>
+                    <li><a href="learning" onclick="return tpu(this)">learning</a></li>
+                    <li><a href="library" onclick="return tpu(this)">library</a></li>
+                    <li><a href="linux" onclick="return tpu(this)">linux</a></li>
+                    <!-- 101-105 -->
+                    <li><a href="location" onclick="return tpu(this)">location</a></li>
+                    <li><a href="machine" onclick="return tpu(this)">machine</a></li>
+                    <li><a href="main" onclick="return tpu(this)">main</a></li>
+                    <li><a href="malicious" onclick="return tpu(this)">malicious</a></li>
+                    <li><a href="malware" onclick="return tpu(this)">malware</a></li>
+                    <!-- 106-110 -->
+                    <li><a href="many" onclick="return tpu(this)">many</a></li>
+                    <li><a href="market" onclick="return tpu(this)">market</a></li>
+                    <li><a href="may" onclick="return tpu(this)">may</a></li>
+                    <li><a href="mechanism" onclick="return tpu(this)">mechanism</a></li>
+                    <li><a href="memory" onclick="return tpu(this)">memory</a></li>
+                    <!-- 111 - 115 -->
+                    <li><a href="message" onclick="return tpu(this)">message</a></li>
+                    <li><a href="messages" onclick="return tpu(this)">messages</a></li>
+                    <li><a href="method" onclick="return tpu(this)">method</a></li>
+                    <li><a href="methods" onclick="return tpu(this)">methods</a></li>
+                    <li><a href="mobile" onclick="return tpu(this)">mobile</a></li>
+                    <!-- 116-120 -->
+                    <li><a href="model" onclick="return tpu(this)">model</a></li>
+                    <li><a href="mutation" onclick="return tpu(this)">mutation</a></li>
+                    <li><a href="native" onclick="return tpu(this)">native</a></li>
+                    <li><a href="need" onclick="return tpu(this)">need</a></li>
+                    <li><a href="network" onclick="return tpu(this)">network</a></li>
+                    <!-- 121-125 -->
+                    <li><a href="new" onclick="return tpu(this)">new</a></li>
+                    <li><a href="nfc" onclick="return tpu(this)">nfc</a></li>
+                    <li><a href="number" onclick="return tpu(this)">number</a></li>
+                    <li><a href="one" onclick="return tpu(this)">one</a></li>
+                    <li><a href="online" onclick="return tpu(this)">online</a></li>
+                    
+                    <!-- 126-130 -->
+                    <li><a href="open" onclick="return tpu(this)">open</a></li>
+                    <li><a href="operating" onclick="return tpu(this)">operating</a></li>
+                    <li><a href="order" onclick="return tpu(this)">order</a></li>
+                    <li><a href="paper" onclick="return tpu(this)">paper</a></li>
+                    <li><a href="performance" onclick="return tpu(this)">performance</a></li>
+                    <!-- 131-135 -->
+                    <li><a href="permission" onclick="return tpu(this)">permission</a></li>
+                    <li><a href="permissions" onclick="return tpu(this)">permissions</a></li>
+                    <li><a href="phone" onclick="return tpu(this)">phone</a></li>
+                    <li><a href="platform" onclick="return tpu(this)">platform</a></li>
+                    <li><a href="privacy" onclick="return tpu(this)">privacy</a></li>
+                    <!-- 136-140 -->
+                    <li><a href="private" onclick="return tpu(this)">private</a></li>
+                    <li><a href="proc" onclick="return tpu(this)">proc</a></li>
+                    <li><a href="proceedings" onclick="return tpu(this)">proceedings</a></li>
+                    <li><a href="process" onclick="return tpu(this)">process</a></li>
+                    <li><a href="program" onclick="return tpu(this)">program</a></li>
+                    <!-- 141-145 -->
+                    <li><a href="proposed" onclick="return tpu(this)">proposed</a></li>
+                    <li><a href="provide" onclick="return tpu(this)">provide</a></li>
+                    <li><a href="provides" onclick="return tpu(this)">provides</a></li>
+                    <li><a href="read" onclick="return tpu(this)">read</a></li>
+                    <li><a href="related" onclick="return tpu(this)">related</a></li>
+                    
+                    <!-- 146-150 -->
+                    <li><a href="research" onclick="return tpu(this)">research</a></li>
+                    <li><a href="resources" onclick="return tpu(this)">resources</a></li>
+                    <li><a href="result" onclick="return tpu(this)">result</a></li>
+                    <li><a href="results" onclick="return tpu(this)">results</a></li>
+                    <li><a href="run" onclick="return tpu(this)">run</a></li>
+                    <!-- 151-155 -->
+                    <li><a href="running" onclick="return tpu(this)">running</a></li>
+                    <li><a href="science" onclick="return tpu(this)">science</a></li>
+                    <li><a href="screen" onclick="return tpu(this)">screen</a></li>
+                    <li><a href="second" onclick="return tpu(this)">second</a></li>
+                    <li><a href="section" onclick="return tpu(this)">section</a></li>
+                    <!-- 156-160 -->
+                    <li><a href="security" onclick="return tpu(this)">security</a></li>
+                    <li><a href="send" onclick="return tpu(this)">send</a></li>
+                    <li><a href="sensitive" onclick="return tpu(this)">sensitive</a></li>
+                    <li><a href="server" onclick="return tpu(this)">server</a></li>
+                    <li><a href="service" onclick="return tpu(this)">service</a></li>
+                    <!-- 161-165 -->
+                    <li><a href="services" onclick="return tpu(this)">services</a></li>
+                    <li><a href="set" onclick="return tpu(this)">set</a></li>
+                    <li><a href="several" onclick="return tpu(this)">several</a></li>
+                    <li><a href="shown" onclick="return tpu(this)">shown</a></li>
+                    <li><a href="shows" onclick="return tpu(this)">shows</a></li>
+                    <!-- 166-170 -->
+                    
+                    
+                    <li><a href="since" onclick="return tpu(this)">since</a></li>
+                    <li><a href="size" onclick="return tpu(this)">size</a></li>
+                    <li><a href="smartphone" onclick="return tpu(this)">smartphone</a></li>
+                    <li><a href="smartphones" onclick="return tpu(this)">smartphones</a></li>
+                    <li><a href="sms" onclick="return tpu(this)">sms</a></li>
+                    <!-- 171-175 -->
+                    <li><a href="software" onclick="return tpu(this)">software</a></li>
+                    <li><a href="source" onclick="return tpu(this)">source</a></li>
+                    <li><a href="sqlite" onclick="return tpu(this)">sqlite</a></li>
+                    <li><a href="static" onclick="return tpu(this)">static</a></li>
+                    <li><a href="study" onclick="return tpu(this)">study</a></li>
+                    <!-- 176-180 -->
+                    <li><a href="support" onclick="return tpu(this)">support</a></li>
+                    <li><a href="system" onclick="return tpu(this)">system</a></li>
+                    <li><a href="systems" onclick="return tpu(this)">systems</a></li>
+                    <li><a href="table" onclick="return tpu(this)">table</a></li>
+                    <li><a href="techniques" onclick="return tpu(this)">techniques</a></li>
+                    <!-- 181-185 -->
+                    <li><a href="technology" onclick="return tpu(this)">technology</a></li>
+                    <li><a href="test" onclick="return tpu(this)">test</a></li>
+                    <li><a href="testing" onclick="return tpu(this)">testing</a></li>
+                    <li><a href="three" onclick="return tpu(this)">three</a></li>
+                    <li><a href="thus" onclick="return tpu(this)">thus</a></li>
+                    <!-- 186-190 -->
+                    <li><a href="time" onclick="return tpu(this)">time</a></li>
+                    <li><a href="timestamps" onclick="return tpu(this)">timestamps</a></li>
+                    <li><a href="tool" onclick="return tpu(this)">tool</a></li>
+                    <li><a href="tools" onclick="return tpu(this)">tools</a></li>
+                    <li><a href="two" onclick="return tpu(this)">two</a></li>
+                    <!-- 191-195 -->
+                    <li><a href="type" onclick="return tpu(this)">type</a></li>
+                    <li><a href="university" onclick="return tpu(this)">university</a></li>
+                    <li><a href="use" onclick="return tpu(this)">use</a></li>
+                    <li><a href="used" onclick="return tpu(this)">used</a></li>
+                    <li><a href="user" onclick="return tpu(this)">user</a></li>
+                    <!-- 196-200 -->
+                    <li><a href="users" onclick="return tpu(this)">users</a></li>
+                    <li><a href="uses" onclick="return tpu(this)">uses</a></li>
+                    <li><a href="using" onclick="return tpu(this)">using</a></li>
+                    <li><a href="value" onclick="return tpu(this)">value</a></li>
+                    <li><a href="version" onclick="return tpu(this)">version</a></li>
+                    <!-- 201-205 -->
+                    <li><a href="virtual" onclick="return tpu(this)">virtual</a></li>
+                    <li><a href="vol" onclick="return tpu(this)">vol</a></li>
+                    <li><a href="vulnerability" onclick="return tpu(this)">vulnerability</a></li>
+                    <li><a href="way" onclick="return tpu(this)">way</a></li>
+                    <li><a href="will" onclick="return tpu(this)">will</a></li>
+                    <!-- 206-210 -->
+                    <li><a href="without" onclick="return tpu(this)">without</a></li>
+                    <li><a href="work" onclick="return tpu(this)">work</a></li>
+                    
+                    
+                    
+                </ul>
+                
+            </div>
+            
+            
+            
+        </div>
+        <script defer="" src="./TagCanvas - an HTML5 Canvas Tag Cloud_files/g1k.min.js"></script>
+        
+        
